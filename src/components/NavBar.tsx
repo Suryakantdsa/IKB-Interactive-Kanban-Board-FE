@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import ColomnIcon from "../assets/ColomnIcon";
 import TaskIcon from "../assets/TaskIcon";
-import { DialogContext } from "../App";
 import { DialogName } from "../interfaces/IDialogModal";
+import { DialogContext } from "./Home";
 
 const NavBar = () => {
   const dialogModel = useContext(DialogContext);

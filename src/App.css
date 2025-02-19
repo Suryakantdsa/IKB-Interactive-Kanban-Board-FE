@@ -1,0 +1,169 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-rows: 1fr;
+  height: 100%;
+  width: 100%;
+  gap: 20px;
+  padding: 20px;
+}
+
+.child {
+  background-color: #3498db;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  padding: 20px;
+  height: 100%;
+}
+
+.navbar {
+  display: flex;
+  width: 100%;
+  padding: 10px 20px 0 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar .logo {
+  font-weight: 900;
+  font-size: xx-large;
+  color: blue;
+  letter-spacing: 10px;
+}
+.navbar .logo-name {
+  font-size: smaller;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 0.8;
+}
+
+.btn-grp {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  align-items: center;
+  width: 22%;
+  cursor: pointer;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: green;
+  color: aliceblue;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.navbar .colomn {
+  padding: 10px 20px;
+  background-color: darkmagenta;
+  color: aliceblue;
+}
+.model-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  display: flex;
+  position: absolute;
+  width: 40%;
+  height: 300px;
+  background: rgb(194, 199, 199);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+.modal div {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+.modal .btn-grp {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.btn:hover {
+  opacity: 0.8;
+}
+.cancel-btn {
+  background: #ff0000;
+  color: white;
+}
+
+h3 {
+  text-align: center;
+}
+
+.task {
+  padding: 10px;
+  margin: 5px;
+  background-color: rgb(173, 23, 23);
+  border-radius: 5px;
+  cursor: grab;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.task:active {
+  cursor: grabbing;
+}
+
+@media (max-width: 768px) {
+  .parent {
+    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: auto;
+  }
+  .navbar .btn-grp {
+    width: 50%;
+    font-size: small;
+  }
+  .navbar .logo {
+    font-size: medium;
+  }
+  .show-hide {
+    display: none;
+  }
+  .modal {
+    width: 90%;
+  }
+}

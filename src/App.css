@@ -19,7 +19,7 @@
 .parent {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   height: 100%;
   width: 100%;
   gap: 20px;
@@ -29,6 +29,9 @@
 .child {
   background-color: #3498db;
   color: white;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 10px;
   text-align: center;
   border-radius: 8px;
   padding: 20px;
@@ -138,20 +141,126 @@ h3 {
 .task {
   padding: 10px;
   margin: 5px;
-  background-color: rgb(173, 23, 23);
+  /* background-color: rgb(173, 23, 23); */
   border-radius: 5px;
   cursor: grab;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .task:active {
   cursor: grabbing;
 }
 
+.task-card {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+}
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  color: #ff0000;
+}
+
+.edit-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.delete-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.task-desc {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.date-btn:hover {
+  color: #000;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.todo {
+  background: #f3f3f3;
+  color: #333;
+}
+
+.status.inprogress {
+  background: #cce5ff;
+  color: #007bff;
+}
+
+.status.completed {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
 @media (max-width: 768px) {
   .parent {
-    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: repeat(auto-fit);
     grid-template-columns: auto;
+  }
+  .child {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
   }
   .navbar .btn-grp {
     width: 50%;

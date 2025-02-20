@@ -5,11 +5,12 @@ export enum StatusEnum {
 }
 
 export interface Task_GET {
+  _id?: string;
   title: string;
   description: string;
-  //   status: StatusEnum;
-  //   createdAt: Date;
-  //   updatedAt: Date;
+  status?: StatusEnum;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 export interface Task_POST {
   title: string;

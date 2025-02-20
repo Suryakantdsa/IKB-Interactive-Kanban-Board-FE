@@ -16,4 +16,5 @@ export enum DialogName {
 }
 export interface IDialogModalProbs {
   title?: string;
+  onSave: (res: any) => void;
 }

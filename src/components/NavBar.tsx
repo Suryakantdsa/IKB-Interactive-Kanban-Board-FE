@@ -1,13 +1,36 @@
 import { useContext } from "react";
-import ColomnIcon from "../assets/ColomnIcon";
 import TaskIcon from "../assets/TaskIcon";
 import { DialogName } from "../interfaces/IDialogModal";
-import { DialogContext } from "./Home";
+import { DialogContext } from "../App";
+import UndoIcon from "../assets/UndoIcon";
+import toast from "react-hot-toast";
+import { updateTask } from "../utils/api";
+import { Task_GET } from "../interfaces/ITasks";
 
 const NavBar = () => {
   const dialogModel = useContext(DialogContext);
   if (!dialogModel) return null;
   const { setDialogName, setModalOpen } = dialogModel;
+  const handleUndo = async () => {
+    let data = localStorage.getItem("deleted_task");
+    if (!data) return;
+
+    const deletedTask = JSON.parse(data) as Task_GET;
+    if (!deletedTask._id) {
+      return null;
+    }
+    try {
+      await toast.promise(updateTask(deletedTask._id, deletedTask), {
+        loading: "Undoing task...",
+        success: "Task undo successfully!",
+        error: "Failed to undo task, please try again.",
+      });
+      localStorage.removeItem("deleted_task");
+      window.location.reload();
+    } catch (error) {
+      console.error("internal error", error);
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -28,18 +51,15 @@ const NavBar = () => {
           </span>
           <span className="show-hide">Add task</span>
         </button>
-        <button
-          className="btn colomn"
-          onClick={() => {
-            setModalOpen(true);
-            setDialogName(DialogName.ADD_COLOMN);
-          }}
-        >
-          <span>
-            <ColomnIcon />
-          </span>
-          <span className="show-hide">Add colomn</span>
-        </button>
+        {localStorage.getItem("deleted_task") && (
+          <button className="btn colomn" onClick={handleUndo}>
+            <span>
+              {/* <ColomnIcon /> */}
+              <UndoIcon />
+            </span>
+            <span className="show-hide">Undo </span>
+          </button>
+        )}
       </div>
     </nav>
   );

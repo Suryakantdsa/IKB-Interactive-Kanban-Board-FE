@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { DialogName, IDialogModalProbs } from "../interfaces/IDialogModal";
 import { createTask, deleteTask, updateTask } from "../utils/api";
-import { DialogContext } from "./Home";
 import toast from "react-hot-toast";
+import { DialogContext } from "../App";
 
-const DialogModal: React.FC<IDialogModalProbs> = ({}) => {
+const DialogModal: React.FC<IDialogModalProbs> = ({ onSave }) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [colomn, setColomn] = useState("");
   const [taskId, setTaskId] = useState<string | null>(null);
   const dialogModel = useContext(DialogContext);
   if (!dialogModel) return null;
@@ -19,27 +18,40 @@ const DialogModal: React.FC<IDialogModalProbs> = ({}) => {
       setTaskId(selectedTask._id);
     }
   }, [selectedTask]);
+
   const handleSave = async () => {
     try {
+      let res;
       if (dialogName === DialogName.ADD_TASK) {
-        await toast.promise(createTask({ title, description: desc }), {
+        res = await toast.promise(createTask({ title, description: desc }), {
           loading: "Creating task...",
           success: "Task created successfully!",
           error: "Something went wrong, please try again.",
         });
+        setDesc("");
+        setTitle("");
       } else if (dialogName === DialogName.EDIT_TASK && taskId) {
-        await toast.promise(updateTask(taskId, { title, description: desc }), {
-          loading: "Updating task...",
-          success: "Task updated successfully!",
-          error: "Failed to update task, please try again.",
-        });
+        res = await toast.promise(
+          updateTask(taskId, { title, description: desc }),
+          {
+            loading: "Updating task...",
+            success: "Task updated successfully!",
+            error: "Failed to update task, please try again.",
+          }
+        );
+        setDesc("");
+        setTitle("");
       } else if (dialogName === DialogName.DELETE_TASK && taskId) {
-        await toast.promise(deleteTask(taskId), {
+        res = await toast.promise(deleteTask(taskId), {
           loading: "Deleting task...",
           success: "Task deleted successfully!",
           error: "Failed to delete task, please try again.",
         });
+        localStorage.setItem("deleted_task", JSON.stringify(selectedTask));
+        setDesc("");
+        setTitle("");
       }
+      onSave(res.task);
       setModalOpen(false);
     } catch (error) {
       console.error("Error:", error);
@@ -49,7 +61,14 @@ const DialogModal: React.FC<IDialogModalProbs> = ({}) => {
     return null;
   }
   return (
-    <div className="model-overlay" onClick={() => setModalOpen(false)}>
+    <div
+      className="model-overlay"
+      onClick={() => {
+        setModalOpen(!isModalOpen);
+        setDesc("");
+        setTitle("");
+      }}
+    >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div>
           <h1>{dialogName}</h1>
@@ -67,8 +86,6 @@ const DialogModal: React.FC<IDialogModalProbs> = ({}) => {
                     dialogName === DialogName.EDIT_TASK
                   ) {
                     setTitle(e.target.value);
-                  } else if (dialogName === DialogName.ADD_COLOMN) {
-                    setColomn(e.target.value);
                   }
                 }}
               />
@@ -90,7 +107,11 @@ const DialogModal: React.FC<IDialogModalProbs> = ({}) => {
             </button>
             <button
               className="btn cancel-btn"
-              onClick={() => setModalOpen(!isModalOpen)}
+              onClick={() => {
+                setModalOpen(!isModalOpen);
+                setDesc("");
+                setTitle("");
+              }}
             >
               cancel
             </button>

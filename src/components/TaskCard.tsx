@@ -3,12 +3,12 @@ import EditIcon from "../assets/EditIcon";
 import "../App.css"; // Import CSS file
 import { Task_GET } from "../interfaces/ITasks";
 import { useContext } from "react";
-import { DialogContext } from "./Home";
 import { DialogName } from "../interfaces/IDialogModal";
 import DeleteIcon from "../assets/DeleteIcon";
+import { DialogContext } from "../App";
 
 interface TaskCardProps extends Task_GET {
-  onEdit: () => void;
+  // onEdit: () => void;
 }
 
 const TaskCard = ({
@@ -17,8 +17,7 @@ const TaskCard = ({
   description,
   createdAt,
   status,
-}: //   onEdit,
-TaskCardProps) => {
+}: TaskCardProps) => {
   const dialogModel = useContext(DialogContext);
   if (!dialogModel) return null;
   const { setDialogName, setModalOpen, setSelectedTask } = dialogModel;
@@ -68,9 +67,13 @@ TaskCardProps) => {
       <div className="task-footer">
         <button className="date-btn">
           <TImeIcon />
-          <span>
+          <span style={{ fontWeight: "bold" }}>
             {createdAt
-              ? new Date(createdAt).toISOString().split("T")[0]
+              ? new Date(createdAt).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })
               : "No Date"}
           </span>
         </button>
